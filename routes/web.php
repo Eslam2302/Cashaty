@@ -8,6 +8,7 @@ use App\Http\Middleware\SetLocale;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 
 
 Route::get('/lang/{locale}', function ($locale) {
@@ -46,6 +47,11 @@ Route::middleware([
         return view(view: 'customers.index');
     })->middleware(['auth', 'verified'])->name(name: 'customers.index');
 
+    // راوت لصفحة الاوردرات
+    Route::get('/orders', function () {
+        return view(view: 'orders.index');
+    })->middleware(['auth', 'verified'])->name(name: 'orders.index');
+
 
 
 
@@ -55,10 +61,15 @@ Route::middleware([
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('customers', CustomerController::class);
+    Route::resource('orders', OrderController::class);
+
+
 
 
 
     Route::get('/categories/{id}/products', [ProductController::class, 'byCategory'])->name('categories.products');
+    Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+
 
 
 

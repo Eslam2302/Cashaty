@@ -23,6 +23,10 @@
                 <i class="nav-icon fas fa-users"></i>
                 <p>@lang('customers.customers')</p>
             </a>
+            <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>@lang('orders.orders')</p>
+            </a>
         </li>
       </ul>
     </nav>

@@ -13,7 +13,7 @@ class Product extends Model
         'description',
         'price',
         'category_id',
-        'image', 
+        'image',
         'barcode',
         'stock',
         'is_active',
@@ -24,4 +24,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
 
     }
+
+    public function orders(){
+
+        return $this->belongsToMany(Order::class)->withPivot('quantity', 'price')->withTimestamps();
+
+    }
+
 }
