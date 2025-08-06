@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Log;
+use App\Models\StockTransaction;
 
 
 
@@ -16,9 +17,26 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $query = Order::with('customer', 'products')->latest();
+
+        if($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('id', 'like', '%' . $request->search . '%')
+                ->orWhereHas('customer', function($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->search . '%');
+                })
+                ->orWhereDate('created_at', $request->search)
+                ->orWhere('status', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $orders = $query->get();
+
+
+        return view('orders.index', compact('orders'));
     }
 
     /**
@@ -39,28 +57,48 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-        Log::info($request->all());
-
-
         try {
+            $data = $request->all();
+
+            // لو جاي مصفوفة جواها كائن
+            if (isset($data[0])) {
+                $data = $data[0];
+            }
+
             $order = Order::create([
-                'total' => floatval($request->total),
+                'total' =>  $data['total'],
+                'customer_id' => $data['customer_id'] ?? null,
             ]);
 
-            foreach ($request->items as $item) {
+            foreach ($data['items'] as $item) {
                 $order->products()->attach($item['id'], [
                     'quantity' => $item['quantity'],
                     'price' => $item['price']
                 ]);
+
+                // تسجيل خروج من المخزن
+                StockTransaction::create([
+                    'product_id' => $item['id'],
+                    'type' => 'out',
+                    'quantity' => $item['quantity'],
+                    'notes' => 'Order #' . $order->id,
+                ]);
             }
 
-            return response()->json(['message' => '✅ تم حفظ الأوردر بنجاح']);
+            return response()->json([
+                'message' => __('orders.order_saved'),
+                'order_id' => $order->id,
+            ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => '❌ حصل خطأ أثناء الحفظ',
+                'message' => __('orders.order_error'),
                 'error' => $e->getMessage()
             ], 500);
-        }
+        };
+
+
+
+
     }
 
     /**
@@ -68,8 +106,56 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $order->load('products', 'customer');
+
+        return view('orders.show', compact('order'));
+
     }
+
+    /**
+     * Change the status of the order.
+     */
+
+    public function completed(Order $order){
+
+        if($order->status != 'pending'){
+            return back()->with('error', __(key: 'orders.only_pending_completed'));
+        }
+
+        $order->update(['status' => 'completed']);
+        $order->save();
+
+        return back()->with('success', __('orders.order_completed'));
+    }
+
+    public function cancel(Order $order){
+
+        if($order->status != 'pending'){
+            return back()->with('error', __(key: 'orders.only_pending_cancelled'));
+        }
+
+        $order->update(['status' => 'cancelled']);
+
+        $order->save();
+
+        return back()->with('success', __('orders.order_cancelled'));
+
+    }
+
+    public function refund(Order $order){
+
+        if($order->status != 'completed'){
+            return back()->with('error', __(key: 'orders.only_completed_refund'));
+        }
+
+        $order->update(['status' => 'refunded']);
+        $order->save();
+        return back()->with('success', __('orders.order_refunded'));
+
+
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

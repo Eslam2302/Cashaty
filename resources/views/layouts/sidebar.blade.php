@@ -19,13 +19,21 @@
                 <i class="nav-icon fas fa-box"></i>
                 <p>@lang('products.products')</p>
             </a>
+            <a href="{{ route('orders.create') }}" class="nav-link {{ request()->routeIs('orders.create') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-box"></i>
+                <p>@lang('orders.open_pos')</p>
+            </a>
             <a href="{{ route('customers.index') }}" class="nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>@lang('customers.customers')</p>
             </a>
-            <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+            <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>@lang('orders.orders')</p>
+            </a>
+            <a href="{{ route('stockTransactions.index') }}" class="nav-link {{ request()->routeIs('stockTransactions.index') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>@lang('stockTransactions.stockTransactions')</p>
             </a>
         </li>
       </ul>

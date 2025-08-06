@@ -42,5 +42,9 @@ return [
     'search' => 'Search Product',
     'search_product'    => 'Search by product name',
     'category_product' => 'Products of Category',
+    'available_stock' => 'Available Stock',
+    'out_of_stock' => 'Out of Stock',
+    'low_stock' => 'Low Stock',
+    'in_stock' => 'In Stock',
 
 ];

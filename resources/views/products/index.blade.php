@@ -57,7 +57,21 @@
 
                     <div class="p-2 card-body">
                         <h5 class="mb-1 card-title text-truncate">{{ $product->name }}</h5>
-                        <p class="mb-2 card-text text-muted small">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
+
+
+                        @if ($product->available_stock <= 0)
+                            <p class="mb-1 card-text text-danger small">@lang('products.out_of_stock')</p>
+                        @elseif ($product->available_stock < 5)
+                            <p class="mb-1 card-text text-warning small">@lang('products.available_stock'): <span>{{ $product->available_stock }}</span></p>
+                        @else
+                            <p class="mb-1 card-text text-success small">@lang('products.available_stock'): <span>{{ $product->available_stock }}</span></p>
+                        @endif
+
+
+
+
+
+                        <p class="mb-1 card-text text-muted small">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
 
                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-outline-primary w-100">@lang('products.preview')</a>
                     </div>

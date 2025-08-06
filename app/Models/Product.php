@@ -31,4 +31,20 @@ class Product extends Model
 
     }
 
+    public function stockTransactions(){
+
+        return $this->hasMany(StockTransaction::class);
+
+    }
+
+    // To get the available stock of the product
+    public function getAvailableStockAttribute(){
+
+        $in = $this->stockTransactions()->where('type','in')->sum('quantity');
+        $out = $this->stockTransactions()->where('type','out')->sum('quantity');
+
+        return $in - $out;
+        
+    }
+
 }

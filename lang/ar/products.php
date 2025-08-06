@@ -42,6 +42,10 @@ return [
     'search' => 'بحث عن منتج',
     'search_product' => 'ابحث عن طريق اسم المنتج',
     'category_product' => 'منتجات القسم',
+    'available_stock' => 'المخزون المتاح',
+    'out_of_stock' => 'غير متوفر في المخزون',
+    'low_stock' => 'مخزون منخفض',
+    'in_stock' => 'متوفر في المخزون',
 
 
 

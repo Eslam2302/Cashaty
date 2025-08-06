@@ -9,7 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\StockTransactionController;
 
 Route::get('/lang/{locale}', function ($locale) {
 if (! in_array($locale, ['en', 'ar'])) {
@@ -62,6 +62,14 @@ Route::middleware([
     Route::resource('products', ProductController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('stockTransactions', StockTransactionController::class);
+
+
+    // Change status of order (Pending / Completed / cancelled / refund)
+
+    Route::post('/orders/{order}/complete', [OrderController::class, 'completed'])->name('orders.complete');
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/{order}/refund', [OrderController::class, 'refund'])->name('orders.refund');
 
 
 

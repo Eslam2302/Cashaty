@@ -12,8 +12,9 @@ class Order extends Model
 
     protected $fillable = [
         'customer_id',
-        'total_price',
+        'total',
         'notes',
+        'status', 
     ];
 
     public function customer(){
@@ -23,7 +24,7 @@ class Order extends Model
     }
 
     public function products(){
-        
+
         return $this->belongsToMany(Product::class)
                     ->withPivot('quantity', 'price')
                     ->withTimestamps();
