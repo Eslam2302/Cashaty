@@ -10,6 +10,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StockTransactionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityLogController;
+
+
 
 Route::get('/lang/{locale}', function ($locale) {
 if (! in_array($locale, ['en', 'ar'])) {
@@ -78,6 +82,9 @@ Route::middleware([
     Route::get('/categories/{id}/products', [ProductController::class, 'byCategory'])->name('categories.products');
     Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 
+    Route::resource('users',UserController::class);
+
+    Route::get('activityLogs', action: [ActivityLogController::class, 'index'])->name('activityLogs.index');
 
 
 
@@ -88,6 +95,10 @@ Route::middleware([
 
 
 Route::middleware('auth')->group(function () {
+
+
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

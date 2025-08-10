@@ -7,6 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\StockTransaction;
+
 
 
 class ProductController extends Controller
@@ -94,7 +96,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        StockTransaction::where('product_id', $product->id)->get();
+        // Fetch stock transactions for the product
+        $stockTransactions = $product->stockTransactions()->latest()->get();
+        // Pass the product and its stock transactions to the view
+        return view('products.show', compact('product', 'stockTransactions'));
+
     }
 
     /**

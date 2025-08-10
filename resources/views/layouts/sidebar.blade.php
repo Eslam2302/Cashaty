@@ -35,6 +35,14 @@
                 <i class="nav-icon fas fa-users"></i>
                 <p>@lang('stockTransactions.stockTransactions')</p>
             </a>
+            <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>@lang('users.users')</p>
+            </a>
+            <a href="{{ route('activityLogs.index') }}" class="nav-link {{ request()->routeIs('activityLogs.index') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p>@lang('activityLogs.activityLogs')</p>
+            </a>
         </li>
       </ul>
     </nav>

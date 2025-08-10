@@ -17,5 +17,6 @@ return [
     'stock_transactions' => 'حركات المخزون',
     'create_transactions' => 'إنشاء حركات المخزون',
     'search' => 'بحث',
+    'storekeeper_name'  =>  'اسم امين المخزن'
 
 ];

@@ -59,6 +59,9 @@ return [
     'confirm_cancel' => 'Are you sure you want to cancel this order?',
     'confirm_refund' => 'Are you sure you want to refund this order?',
     'order' => 'Order',
+    'transaction_in_cancel' => 'Incoming from cancelled order #',
+    'transaction_in_refund' => 'Incoming from refund order #',
+    'cashier_name'  =>  'Cashier Name',
 
 
 ];

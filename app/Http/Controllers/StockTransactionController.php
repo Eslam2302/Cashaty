@@ -26,7 +26,7 @@ class StockTransactionController extends Controller
             });
         }
 
-        $stockTransactions = $query->get();
+        $stockTransactions = $query->with(['lastActivity.causer'])->get();
 
         return view('stockTransactions.index', compact( 'stockTransactions'));
     }

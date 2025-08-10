@@ -30,6 +30,7 @@
                     <th>@lang('stockTransactions.product')</th>
                     <th>@lang('stockTransactions.quantity')</th>
                     <th>@lang('stockTransactions.type')</th>
+                    <th>@lang('stockTransactions.storekeeper_name')</th>
                     <th>@lang('stockTransactions.notes')</th>
                     <th>@lang('stockTransactions.transaction_time')</th>
                 </tr>
@@ -40,6 +41,7 @@
                         <td>{{ $transaction->product->name }}</td>
                         <td>{{ $transaction->quantity }}</td>
                         <td>{{ $transaction->type == 'in' ? __('stockTransactions.incoming') : __('stockTransactions.outgoing') }}</td>
+                        <td>{{ $transaction->lastActivity?->causer?->name ?? 'System' }}</td>
                         <td>{{ $transaction->notes }}</td>
                         <td>{{ $transaction->created_at->format('Y-m-d H:i:s') }}</td>
                     </tr>

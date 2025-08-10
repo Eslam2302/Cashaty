@@ -3,9 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Product extends Model
 {
+
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() 
+            ->useLogName(logName: 'product')
+            ->setDescriptionForEvent(callback: fn(string $eventName) => "Product has been {$eventName}");
+    }
 
     protected $fillable = [
         'name',
@@ -44,7 +56,7 @@ class Product extends Model
         $out = $this->stockTransactions()->where('type','out')->sum('quantity');
 
         return $in - $out;
-        
+
     }
 
 }

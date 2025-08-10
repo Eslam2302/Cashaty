@@ -15,4 +15,5 @@ return [
     'transaction_time' => 'Transaction Time',
     'search_placeholder' => 'Search by  product name / Type / Quantity',
     'search' => 'Search',
+    'storekeeper_name'  =>  'Storekeeper Name',
 ];

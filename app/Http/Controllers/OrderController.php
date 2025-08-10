@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Support\Facades\Log;
 use App\Models\StockTransaction;
+use Spatie\Activitylog\Models\Activity;
 
 
 
@@ -33,7 +33,7 @@ class OrderController extends Controller
             });
         }
 
-        $orders = $query->get();
+        $orders = $query->with(['lastActivity.causer'])->get();
 
 
         return view('orders.index', compact('orders'));
@@ -134,6 +134,16 @@ class OrderController extends Controller
             return back()->with('error', __(key: 'orders.only_pending_cancelled'));
         }
 
+        // رجع الكمية لكل منتج
+        foreach ($order->products as $product) {
+            StockTransaction::create([
+            'product_id' => $product->id,
+            'quantity'   => $product->pivot->quantity, // الكمية اللي كانت في الأوردر
+            'type'       => 'in', // دخول مخزون
+            'notes'       => __('orders.transaction_in_cancel') . $order->id,
+            ]);
+        }
+
         $order->update(['status' => 'cancelled']);
 
         $order->save();
@@ -146,6 +156,16 @@ class OrderController extends Controller
 
         if($order->status != 'completed'){
             return back()->with('error', __(key: 'orders.only_completed_refund'));
+        }
+
+        // رجع الكمية لكل منتج
+        foreach ($order->products as $product) {
+            StockTransaction::create([
+            'product_id' => $product->id,
+            'quantity'   => $product->pivot->quantity, // الكمية اللي كانت في الأوردر
+            'type'       => 'in', // دخول مخزون
+            'notes'      => __('orders.transaction_in_refund') . $order->id,
+            ]);
         }
 
         $order->update(['status' => 'refunded']);
