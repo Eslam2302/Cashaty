@@ -5,10 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Routing\Controller;
+
 
 
 class CategoryController extends Controller
 {
+
+    // Permissions Security
+    public function __construct()
+    {
+        $this->middleware('permission:view categories')->only(['index']);
+        $this->middleware('permission:add category')->only(['create', 'store']);
+        $this->middleware('permission:edit category')->only(['edit', 'update']);
+        $this->middleware('permission:delete category')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

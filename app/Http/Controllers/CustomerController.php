@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class CustomerController extends Controller
 {
+
+    // Permissions Security
+    public function __construct()
+    {
+        $this->middleware('permission:view customers')->only(['index']);
+        $this->middleware('permission:add customer')->only(['create', 'store']);
+        $this->middleware('permission:edit customer')->only(['edit', 'update']);
+        $this->middleware('permission:delete customer')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -6,11 +6,23 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Routing\Controller;
 
 
 
 class UserController extends Controller
 {
+
+    // Permissions Security
+    public function __construct()
+    {
+        $this->middleware('permission:view users')->only(methods: ['index','show']);
+        $this->middleware('permission:add user')->only(['create', 'store']);
+        $this->middleware('permission:edit user')->only(['edit', 'update']);
+        $this->middleware('permission:delete user')->only(['destroy']);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

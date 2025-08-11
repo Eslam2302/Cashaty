@@ -2,9 +2,16 @@
 
 @section('content')
 <div class="container">
-    <h2>@lang('categories.categories')</h2>
 
-    <a href="{{ route('categories.create') }}" class="mb-3 btn btn-primary">@lang('categories.add-new')</a>
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+
+        <h3>@lang('categories.categories')</h3>
+
+        @can('add category')
+            <a href="{{ route('categories.create') }}" class="mb-3 btn btn-primary">@lang('categories.add-new')</a>
+        @endcan
+
+    </div>
 
     <table class="table text-center table-bordered">
         <thead>
@@ -26,13 +33,17 @@
                 <td>{{ $category->description }}</td>
                 <td>{{ $category->created_at->format('Y-m-d') }}</td>
                 <td>
-                    <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">@lang('categories.edit_btn')</a>
+                    @can('edit category')
+                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-warning">@lang('categories.edit_btn')</a>
+                    @endcan
 
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('{{ __('categories.confirm_delete') }}');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">@lang('categories.delete_btn')</button>
-                    </form>
+                    @can('delete category')
+                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('{{ __('categories.confirm_delete') }}');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">@lang('categories.delete_btn')</button>
+                        </form>
+                    @endcan
 
                 </td>
             </tr>

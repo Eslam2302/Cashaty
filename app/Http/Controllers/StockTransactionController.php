@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\stockTransaction;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Routing\Controller;
+
 
 class StockTransactionController extends Controller
 {
+
+    // Permissions Security
+    public function __construct()
+    {
+        $this->middleware('permission:view stock')->only(methods: ['index']);
+        $this->middleware('permission:add stock')->only(['create', 'store']);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

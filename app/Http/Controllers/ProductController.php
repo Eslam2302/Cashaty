@@ -8,11 +8,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Models\StockTransaction;
-
+use Illuminate\Routing\Controller;
 
 
 class ProductController extends Controller
 {
+
+
+    // Permissions Security
+    public function __construct()
+    {
+        $this->middleware('permission:view products')->only(methods: ['index','byCategory']);
+        $this->middleware('permission:view product')->only(['show']);
+        $this->middleware('permission:add product')->only(['create', 'store']);
+        $this->middleware('permission:edit product')->only(['edit', 'update']);
+        $this->middleware('permission:delete product')->only(['destroy']);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

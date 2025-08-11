@@ -34,7 +34,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'delete customer',
             'view orders',
             'create order',
-            'view orders',
+            'view order',
             'edit order',
             'add stock',
             'view stock',
@@ -61,13 +61,13 @@ class RolesAndPermissionsSeeder extends Seeder
         $manager->givePermissionTo(Permission::all());
 
         $cashier->givePermissionTo([
-            'create order', 'view orders','edit order',
+            'create order', 'view orders', 'view order','edit order',
             'add customer','edit customer','view customers',
             'view products','view categories',
             'add stock','view stock']);
 
 
-        $storekeeper->givePermissionTo(['add stock','view stock','view products']);
+        $storekeeper->givePermissionTo(['add stock','view stock','view products','view categories','add product']);
 
 
         // Create default admin user ..

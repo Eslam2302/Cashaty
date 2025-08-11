@@ -4,7 +4,10 @@
 
     <div class="mb-3 d-flex justify-content-between align-items-center">
         <h2 class="mb-4">@lang('customers.customers')</h2>
-        <a href="{{ route('customers.create') }}" class="btn btn-primary">@lang('customers.add_customer')</a>
+
+        @can('add customer')
+            <a href="{{ route('customers.create') }}" class="btn btn-primary">@lang('customers.add_customer')</a>
+        @endcan
     </div>
 
     {{-- Searh Form of products or category select --}}
@@ -39,12 +42,18 @@
                     <td>{{ $customer->email }}</td>
                     <td>{{ $customer->address }}</td>
                     <td>
-                        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">@lang('customers.edit')</a>
-                        <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('@lang('customers.confirm_delete')')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">@lang('customers.delete')</button>
-                        </form>
+                        @can('edit customer')
+                            <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning">@lang('customers.edit')</a>
+                        @endcan
+                        @can('delete customer')
+                            <form action="{{ route('customers.destroy', $customer->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('@lang('customers.confirm_delete')')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">@lang('customers.delete')</button>
+                            </form>
+                        @endcan
+
+
                     </td>
                 </tr>
             @endforeach

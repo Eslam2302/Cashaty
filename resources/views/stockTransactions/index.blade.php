@@ -4,9 +4,12 @@
 
     <div class="mb-3 d-flex justify-content-between align-items-center">
         <h3>@lang('stockTransactions.stockTransactions')</h3>
-        <a href="{{ route('stockTransactions.create') }}" class="btn btn-primary">
-            @lang('stockTransactions.create_transactions')
-        </a>
+
+        @can('add stock')
+            <a href="{{ route('stockTransactions.create') }}" class="btn btn-primary">
+                @lang('stockTransactions.create_transactions')
+            </a>
+        @endcan
     </div>
 
     {{-- Search Form --}}

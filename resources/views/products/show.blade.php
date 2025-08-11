@@ -18,12 +18,18 @@
             <img src="{{ $imagePath }}" class="border rounded img-fluid" alt="{{ $product->name }}">
 
             <div class="product-btns">
-                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-md btn-warning">@lang('products.edit')</a>
-                <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('@lang('products.confirm_delete')')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-md btn-danger">@lang('products.delete')</button>
-                </form>
+                @can('edit product')
+                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-md btn-warning">@lang('products.edit')</a>
+                @endcan
+
+                @can('delete product')
+                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('@lang('products.confirm_delete')')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-md btn-danger">@lang('products.delete')</button>
+                    </form>
+                @endcan
+
             </div>
 
         </div>
@@ -48,33 +54,36 @@
             @endif
         </div>
 
-        <div class="col-md-6">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>@lang('stockTransactions.quantity')</th>
-                            <th>@lang('stockTransactions.type')</th>
-                            <th>@lang('stockTransactions.notes')</th>
-                            <th>@lang('stockTransactions.transaction_time')</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($stockTransactions as $transaction )
+        @can('view stock')
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>@lang('stockTransactions.quantity')</th>
+                                <th>@lang('stockTransactions.type')</th>
+                                <th>@lang('stockTransactions.notes')</th>
+                                <th>@lang('stockTransactions.transaction_time')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($stockTransactions as $transaction )
 
-                        <tr>
-                            <td>{{ $transaction->quantity }}</td>
-                            <td>{{ $transaction->type }}</td>
-                            <td>{{ $transaction->notes }}</td>
-                            <td>{{ $transaction->quantity }}</td>
-                        </tr>
+                            <tr>
+                                <td>{{ $transaction->quantity }}</td>
+                                <td>{{ $transaction->type }}</td>
+                                <td>{{ $transaction->notes }}</td>
+                                <td>{{ $transaction->quantity }}</td>
+                            </tr>
 
-                        @endforeach
-                    </tbody>
+                            @endforeach
+                        </tbody>
 
-                </table>
+                    </table>
+                </div>
             </div>
-        </div>
+        @endcan
+
     </div>
 
 </div>

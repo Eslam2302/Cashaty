@@ -9,11 +9,23 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\StockTransaction;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Routing\Controller;
 
 
 
 class OrderController extends Controller
 {
+
+
+    // Permissions Security
+    public function __construct()
+    {
+        $this->middleware('permission:view orders')->only(['index','show']);
+        $this->middleware('permission:create order')->only(['create', 'store']);
+        $this->middleware('permission:edit order')->only(['edit', 'update','completed','cancel','refund',]);
+    }
+
+
     /**
      * Display a listing of the resource.
      */

@@ -13,9 +13,12 @@
             @endif
         </h2>
 
-        <a href="{{ route('products.create') }}" class="btn btn-primary">
-            @lang('products.add_product')
-        </a>
+        @can('add product')
+            <a href="{{ route('products.create') }}" class="btn btn-primary">
+                @lang('products.add_product')
+            </a>
+        @endcan
+
     </div>
 
     {{-- Searh Form of products or category select --}}
@@ -73,7 +76,11 @@
 
                         <p class="mb-1 card-text text-muted small">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
 
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-outline-primary w-100">@lang('products.preview')</a>
+                        @can('view product')
+                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-outline-primary w-100">
+                                @lang('products.preview')
+                            </a>
+                        @endcan
                     </div>
                 </div>
             </div>

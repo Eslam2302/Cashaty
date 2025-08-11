@@ -9,9 +9,12 @@
             @lang('users.users')
         </h2>
 
-        <a href="{{ route('users.create') }}" class="btn btn-primary">
-        @lang('users.create_user')
-    </a>
+        @can(abilities: 'add user')
+            <a href="{{ route('users.create') }}" class="btn btn-primary">
+                @lang('users.create_user')
+            </a>
+        @endcan
+
     </div>
 
     <div class="mb-4 table-responsive">
@@ -47,7 +50,7 @@
             </tbody>
         </table>
     </div>
-    
+
 </div>
 
 

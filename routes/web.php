@@ -24,84 +24,78 @@ session(['locale' => $locale]);
 return back();
 })->name('lang.switch');
 
-Route::middleware([
-    SetLocale::class, // ضيف الميدل وير هنا
-])->group(function () {
-
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-        })->middleware(['auth', 'verified'])->name('dashboard');
-
-    // راوت لصفحة الاقسام
-    Route::get('/categories', function () {
-        return view('categories.index');
-    })->middleware(['auth', 'verified'])->name('categories.index');
-
-    // راوت لصفحة المنتجات
-    Route::get('/products', function () {
-        return view(view: 'products.index');
-    })->middleware(['auth', 'verified'])->name(name: 'products.index');
-
-    // راوت لصفحة العملاء
-    Route::get('/customers', function () {
-        return view(view: 'customers.index');
-    })->middleware(['auth', 'verified'])->name(name: 'customers.index');
-
-    // راوت لصفحة الاوردرات
-    Route::get('/orders', function () {
-        return view(view: 'orders.index');
-    })->middleware(['auth', 'verified'])->name(name: 'orders.index');
-
-
-
-
-
-    // باقي الراوتات...
-
-    Route::resource('categories', CategoryController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('customers', CustomerController::class);
-    Route::resource('orders', OrderController::class);
-    Route::resource('stockTransactions', StockTransactionController::class);
-
-
-    // Change status of order (Pending / Completed / cancelled / refund)
-
-    Route::post('/orders/{order}/complete', [OrderController::class, 'completed'])->name('orders.complete');
-    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
-    Route::post('/orders/{order}/refund', [OrderController::class, 'refund'])->name('orders.refund');
-
-
-
-
-
-    Route::get('/categories/{id}/products', [ProductController::class, 'byCategory'])->name('categories.products');
-    Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
-
-    Route::resource('users',UserController::class);
-
-    Route::get('activityLogs', action: [ActivityLogController::class, 'index'])->name('activityLogs.index');
-
-
-
-});
-
-
-
-
 
 Route::middleware('auth')->group(function () {
 
+    Route::middleware([SetLocale::class,])->group(function () {
+
+        Route::get('/', function () {
+            return view('welcome');
+        });
+
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+            })->middleware(['auth', 'verified'])->name('dashboard');
+
+        // راوت لصفحة الاقسام
+        Route::get('/categories', function () {
+            return view('categories.index');
+        })->middleware(['auth', 'verified'])->name('categories.index');
+
+        // راوت لصفحة المنتجات
+        Route::get('/products', function () {
+            return view(view: 'products.index');
+        })->middleware(['auth', 'verified'])->name(name: 'products.index');
+
+        // راوت لصفحة العملاء
+        Route::get('/customers', function () {
+            return view(view: 'customers.index');
+        })->middleware(['auth', 'verified'])->name(name: 'customers.index');
+
+        // راوت لصفحة الاوردرات
+        Route::get('/orders', function () {
+            return view(view: 'orders.index');
+        })->middleware(['auth', 'verified'])->name(name: 'orders.index');
+
+
+        // باقي الراوتات...
+
+        Route::resource('categories', CategoryController::class);
+        Route::resource('products', ProductController::class);
+        Route::resource('customers', CustomerController::class);
+        Route::resource('orders', OrderController::class);
+        Route::resource('stockTransactions', StockTransactionController::class);
+
+
+        // Change status of order (Pending / Completed / cancelled / refund)
+
+        Route::post('/orders/{order}/complete', [OrderController::class, 'completed'])->name('orders.complete');
+        Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+        Route::post('/orders/{order}/refund', [OrderController::class, 'refund'])->name('orders.refund');
 
 
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+        Route::get('/categories/{id}/products', [ProductController::class, 'byCategory'])->name('categories.products');
+        Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+
+        Route::resource('users',UserController::class);
+
+        Route::get('activityLogs', action: [ActivityLogController::class, 'index'])->name('activityLogs.index');
+
+
+
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    });
+
 });
+
+
+
 
 require __DIR__.'/auth.php';

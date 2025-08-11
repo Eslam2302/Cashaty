@@ -42,23 +42,27 @@
     <a href="{{ route('orders.index') }}" class="mt-3 btn btn-secondary">@lang('orders.orders_back')</a>
     <button  class="mt-3 btn btn-warning" onclick="printReceipt()">@lang('orders.print_receipt') <i class="fas fa-print"></i></button>
 
-    @if ($order->status === 'pending')
-    <form method="POST" action="{{ route('orders.complete', $order->id) }}" onsubmit="return confirm('@lang('orders.confirm_complete')')">
-        @csrf
-        <button class="btn btn-success" type="submit" >@lang('orders.complete_order')</button>
-    </form>
-
-    <form method="POST" action="{{ route('orders.cancel', $order->id) }}"  onsubmit="return confirm('@lang('orders.confirm_cancel')')">
-        @csrf
-        <button class="btn btn-danger" type="submit">@lang('orders.cancel_order')</button>
-    </form>
-
-    @elseif ($order->status === 'completed')
-        <form method="POST" action="{{ route('orders.refund', $order->id) }}"  onsubmit="return confirm('@lang('orders.confirm_refund')')">
+    @can('edit order')
+        @if ($order->status === 'pending')
+        <form method="POST" action="{{ route('orders.complete', $order->id) }}" onsubmit="return confirm('@lang('orders.confirm_complete')')">
             @csrf
-            <button class="btn btn-danger" type="submit">@lang('orders.refund_order')</button>
+            <button class="btn btn-success" type="submit" >@lang('orders.complete_order')</button>
         </form>
-    @endif
+
+        <form method="POST" action="{{ route('orders.cancel', $order->id) }}"  onsubmit="return confirm('@lang('orders.confirm_cancel')')">
+            @csrf
+            <button class="btn btn-danger" type="submit">@lang('orders.cancel_order')</button>
+        </form>
+
+        @elseif ($order->status === 'completed')
+            <form method="POST" action="{{ route('orders.refund', $order->id) }}"  onsubmit="return confirm('@lang('orders.confirm_refund')')">
+                @csrf
+                <button class="btn btn-danger" type="submit">@lang('orders.refund_order')</button>
+            </form>
+        @endif
+    @endcan
+
+
     {{-- END order details --}}
 
 
