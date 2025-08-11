@@ -27,6 +27,7 @@
                     <th>@lang('orders.status')</th>
                     <th>@lang('orders.total_price')</th>
                     <th>@lang('orders.cashier_name')</th>
+                    <th>@lang('orders.payment')</th>
                     <th>@lang('orders.created_at')</th>
                     <th>@lang('orders.actions')</th>
                 </tr>
@@ -39,6 +40,7 @@
                         <td class="order-status">{{ $order->status }}</td>
                         <td>{{ $order->total }} @lang('orders.egp')</td>
                         <td>{{ $order->lastActivity?->causer?->name ?? 'System' }}</td>
+                        <td>{{ $order->payment_method }}</td>
                         <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
                         <td>
                             <a href="{{ route('orders.show', $order->id) }}" class="btn btn-info btn-sm">@lang('orders.view')</a>

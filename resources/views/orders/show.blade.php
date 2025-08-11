@@ -29,7 +29,13 @@
             @foreach($order->products as $product)
                 <tr>
                     <td>{{ $product->name }}</td>
-                    <td>{{ number_format($product->pivot->price, 2) }} @lang('orders.egp')</td>
+                    <td>
+                        {{ number_format($product->pivot->price, 2) }} @lang('orders.egp')
+                        @if ($product->discount > 0)
+                            <span>(discount: {{ number_format($product->discount) }}%)</span>
+                        @endif
+
+                    </td>
                     <td>{{ $product->pivot->quantity }}</td>
                     <td>{{ number_format($product->pivot->price * $product->pivot->quantity, 2) }} @lang('orders.egp')</td>
                 </tr>
@@ -44,8 +50,19 @@
 
     @can('edit order')
         @if ($order->status === 'pending')
-        <form method="POST" action="{{ route('orders.complete', $order->id) }}" onsubmit="return confirm('@lang('orders.confirm_complete')')">
+        <form style="display: block" class="mb-2 " method="POST" action="{{ route('orders.complete', $order->id) }}" onsubmit="return confirm('@lang('orders.confirm_complete')')">
             @csrf
+
+            <select name="payment_method" class="p-1 mt-1 form-select" aria-label="Default select example" required>
+                <option>@lang('orders.payment')</option>
+                <option value="cash">@lang('orders.cash')</option>
+                <option value="visa">@lang('orders.visa')</option>
+                <option value="instapay">@lang('orders.instapay')</option>
+                <option value="credit">@lang('orders.credit')</option>
+            </select>
+
+
+
             <button class="btn btn-success" type="submit" >@lang('orders.complete_order')</button>
         </form>
 

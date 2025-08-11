@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->nullable()->constrained()->nullOnDelete();
             $table->decimal('total', 10, 2);
             $table->string('status')->default('pending');
+            $table->enum('payment_method', ['cash', 'visa', 'instapay', 'credit'])->default('cash');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

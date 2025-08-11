@@ -66,12 +66,25 @@
                             class="m-1 text-center card product-item btn"
                             data-id="{{ $product->id }}"
                             data-name="{{ $product->name }}"
-                            data-price="{{ $product->price }}"
+                            data-price="{{ $product->discount_price }}"
+
+                            @if ($product->available_stock <= 0)
+                                style="pointer-events: none;opacity: 0.7;"
+                            @endif
                         >
 
-                            <img src="{{ $imagePath }}" class="card-img-top img-thumbnail product-img img-fluid" alt="{{ $product->name }}" style="height: 150px; object-fit: cover;">
-                            <p>{{ $product->price }} @lang('orders.egp')</p>
-                            <p">{{ $product->name }}</p>
+                            <img src="{{ $imagePath }}" class="mb-3 card-img-top img-thumbnail product-img img-fluid" alt="{{ $product->name }}" style="height: 150px; object-fit: cover;">
+
+                            @if ($product->discount > 0)
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="mb-1 card-text small">{{ number_format($product->discount_price, 2) }} @lang('products.egp')</span>
+                                    <del class="mb-1 card-text text-muted small">{{ number_format($product->price, 2) }}  @lang('products.egp')</del>
+                                </div>
+                            @else
+                                <p class="mb-1 card-text">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
+                            @endif
+
+                            <p class="mb-1">{{ $product->name }}</p>
                             @if ($product->available_stock <= 0)
                                 <p class="mb-1 card-text text-danger small">@lang('products.out_of_stock')</p>
                             @elseif ($product->available_stock < 5)

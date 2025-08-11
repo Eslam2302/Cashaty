@@ -35,16 +35,25 @@
         </div>
 
         <div class="col-md-3">
-            <h5 class="text-muted">@lang('products.price') :</h5>
-            <p>{{ number_format($product->price, 2) }} @lang('products.egp')</p>
 
-            <h5 class="text-muted">@lang('products.description') :</h5>
+            <h5 class="mb-1 text-muted">@lang('products.price') :</h5>
+            @if ($product->discount > 0)
+                <span class="mb-1 mr-3 card-text ">{{ number_format($product->discount_price, 2) }} @lang('products.egp')</span>
+                <del class="mb-1 card-text text-muted">{{ number_format($product->price, 2) }}  @lang('products.egp')</del>
+            @else
+                <p class="mb-1 card-text">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
+            @endif
+
+            <h5 class="mb-1 text-muted">@lang('products.discount') :</h5>
+            <p>{{ number_format($product->discount) }} %</p>
+
+            <h5 class="mb-1 text-muted">@lang('products.description') :</h5>
             <p>{{ $product->description ?? __('products.no_descripton') }}</p>
 
-            <h5 class="text-muted">@lang('products.category') :</h5>
+            <h5 class="mb-1 text-muted">@lang('products.category') :</h5>
             <p>{{ $product->category->name ?? __('products.no_select') }}</p>
 
-            <h5 class="text-muted">@lang('products.available_stock') :</h5>
+            <h5 class="mb-1 text-muted">@lang('products.available_stock') :</h5>
             @if ($product->available_stock <= 0)
                 <p class="text-danger">@lang('products.out_of_stock')</p>
             @elseif ($product->available_stock < 5)
@@ -73,7 +82,7 @@
                                 <td>{{ $transaction->quantity }}</td>
                                 <td>{{ $transaction->type }}</td>
                                 <td>{{ $transaction->notes }}</td>
-                                <td>{{ $transaction->quantity }}</td>
+                                <td>{{ $transaction->created_at->format('Y-m-d H:i:s') }}</td>
                             </tr>
 
                             @endforeach

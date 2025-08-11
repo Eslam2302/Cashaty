@@ -62,6 +62,11 @@ return [
     'transaction_in_cancel' => 'Incoming from cancelled order #',
     'transaction_in_refund' => 'Incoming from refund order #',
     'cashier_name'  =>  'Cashier Name',
+    'payment'   =>  'Payment Method',
+    'cash'  =>  'Cash',
+    'instapay'  =>  'Instapay',
+    'visa'  =>  'Visa',
+    'credit'    =>  'Credit'
 
 
 ];

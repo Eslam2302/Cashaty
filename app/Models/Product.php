@@ -11,13 +11,7 @@ class Product extends Model
 
     use LogsActivity;
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logAll() 
-            ->useLogName(logName: 'product')
-            ->setDescriptionForEvent(callback: fn(string $eventName) => "Product has been {$eventName}");
-    }
+
 
     protected $fillable = [
         'name',
@@ -29,6 +23,7 @@ class Product extends Model
         'barcode',
         'stock',
         'is_active',
+        'discount'
     ];
 
     public function category(){
@@ -57,6 +52,25 @@ class Product extends Model
 
         return $in - $out;
 
+    }
+
+    // Get Discount Price
+    public function getDiscountPriceAttribute(){
+
+        if ($this->discount > 0) {
+            return $this->price - ($this->price * $this->discount / 100);
+        }
+        return $this->price;
+
+    }
+
+    // Get Logs of product
+     public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->useLogName(logName: 'product')
+            ->setDescriptionForEvent(callback: fn(string $eventName) => "Product has been {$eventName}");
     }
 
 }

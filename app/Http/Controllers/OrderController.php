@@ -128,14 +128,23 @@ class OrderController extends Controller
      * Change the status of the order.
      */
 
-    public function completed(Order $order){
+    public function completed(Request $request, Order $order){
 
         if($order->status != 'pending'){
             return back()->with('error', __(key: 'orders.only_pending_completed'));
         }
 
-        $order->update(['status' => 'completed']);
+        $validated = $request->validate([
+            'payment_method'    =>  'required|in:cash,visa,instapay,credit',
+        ]);
+
+        $order->update([
+            'status' => 'completed',
+            'payment_method'    =>  $validated['payment_method']
+        ]);
         $order->save();
+
+        // ناقص رسالة الايرور لو محترناش طريقة الدفع
 
         return back()->with('success', __('orders.order_completed'));
     }

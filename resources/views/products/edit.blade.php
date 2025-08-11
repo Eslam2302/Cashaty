@@ -24,6 +24,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="discount">@lang('products.discount') (%)</label>
+            <input type="number" step="0.01" name="discount" class="form-control" value="{{ old('discount', $product->discount) }}" required>
+        </div>
+
+        <div class="mb-3">
             <label for="category_id">@lang('products.category')</label>
             <select name="category_id" class="form-control" required>
                 @foreach($categories as $category)

@@ -137,6 +137,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'discount'  =>  'numeric',
         ]);
 
         $slug = Str::slug($validated['name']);

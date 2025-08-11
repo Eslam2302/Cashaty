@@ -61,7 +61,12 @@ return [
     'order' => 'طلب',
     'transaction_in_cancel' => 'إرجاع للمخزون بعد إلغاء الأوردر رقم',
     'transaction_in_refund' => 'ارجاع للمخزون بعد استرجاع الاوردر رقم',
-    'cashier_name'  =>  'اسم الكاشير'
+    'cashier_name'  =>  'اسم الكاشير',
+    'payment'   =>  'طريقة الدفع',
+    'cash'  =>  'كاش',
+    'instapay'  =>  'انستاباي',
+    'visa'  =>  'فيزا',
+    'credit'    =>  'اجل'
 
 
 ];

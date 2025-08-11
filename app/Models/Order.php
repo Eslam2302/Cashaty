@@ -29,7 +29,7 @@ class Order extends Model
         return $this->hasOne(Activity::class, 'subject_id')
             ->where('subject_type', self::class)
             ->latest();
-            
+
     }
 
     protected $fillable = [
@@ -37,6 +37,7 @@ class Order extends Model
         'total',
         'notes',
         'status',
+        'payment_method'
     ];
 
     public function customer(){

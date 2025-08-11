@@ -18,6 +18,7 @@ return new class extends Migration
         $table->string('slug')->unique();
         $table->text('description')->nullable();
         $table->decimal('price', 10, 2);
+        $table->decimal('discount', 10, 2)->default(0);
         $table->foreignId('category_id')->constrained()->onDelete('cascade');
         $table->string('image')->nullable(); // اسم ملف الصورة
         $table->string('barcode')->nullable(); // ممكن نستخدمه للباركود أو QR

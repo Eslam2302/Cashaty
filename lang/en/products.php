@@ -47,5 +47,6 @@ return [
     'low_stock' => 'Low Stock',
     'in_stock' => 'In Stock',
     'no_descripton' => 'No description available',
+    'discount'  =>  'Discount',
 
 ];

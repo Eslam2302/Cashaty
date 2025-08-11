@@ -47,6 +47,7 @@ return [
     'low_stock' => 'مخزون منخفض',
     'in_stock' => 'متوفر في المخزون',
     'no_descripton' => 'لا يوجد وصف متاح',
+    'discount'  =>  'الخصم',
 
 
 

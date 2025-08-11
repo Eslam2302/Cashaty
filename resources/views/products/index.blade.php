@@ -70,11 +70,15 @@
                             <p class="mb-1 card-text text-success small">@lang('products.available_stock'): <span>{{ $product->available_stock }}</span></p>
                         @endif
 
+                        @if ($product->discount > 0)
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="mb-1 card-text ">{{ number_format($product->discount_price, 2) }} @lang('products.egp')</span>
+                                <del class="mb-1 card-text text-muted small">{{ number_format($product->price, 2) }}  @lang('products.egp')</del>
+                            </div>
+                        @else
+                            <p class="mb-1 card-text">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
+                        @endif
 
-
-
-
-                        <p class="mb-1 card-text text-muted small">{{ number_format($product->price, 2) }} @lang('products.egp')</p>
 
                         @can('view product')
                             <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-outline-primary w-100">
