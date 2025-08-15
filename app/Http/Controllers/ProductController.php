@@ -143,15 +143,15 @@ class ProductController extends Controller
         $slug = Str::slug($validated['name']);
         $validated['slug'] = $slug;
 
-        // لو المستخدم رفع صورة جديدة
+
         if ($request->hasFile('image')) {
 
-            // حذف الصورة القديمة لو موجودة
+            // Delete old image if exist
             if ($product['image'] && file_exists(public_path('uploads/products/' . $product['image']))) {
                 unlink(public_path('uploads/products/' . $product['image']));
             }
 
-            // حفظ الصورة الجديدة
+            // Save new image
             $image = $request->file('image');
             $extension = $image->getClientOriginalExtension();
             $imageName = $slug . '-' . time() . '.' . $extension;
@@ -159,7 +159,7 @@ class ProductController extends Controller
             $image->move(public_path('uploads/products'), $imageName);
             $validated['image'] = $imageName;
         } else {
-            // مفيش صورة جديدة؟ خلي الصورة القديمة زي ما هي
+            // if not new image -- stay with old image
             $validated['image'] = $product['image'];
         }
 
@@ -177,10 +177,10 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
 
-        // جلب اسم الصورة من قاعدة البيانات
+        // Bring image name
         $imagePath = public_path('uploads/products/' . $product['image']);
 
-        // حذف الصورة من الفولدر لو موجودة
+        // Delete image in file path
         if ($product['image'] && file_exists($imagePath)) {
             unlink($imagePath);
         }

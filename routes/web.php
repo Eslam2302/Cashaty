@@ -12,6 +12,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\DashboardController;
+
 
 
 
@@ -33,32 +35,25 @@ Route::middleware('auth')->group(function () {
             return view('welcome');
         });
 
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-            })->middleware(['auth', 'verified'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        // راوت لصفحة الاقسام
         Route::get('/categories', function () {
             return view('categories.index');
         })->middleware(['auth', 'verified'])->name('categories.index');
 
-        // راوت لصفحة المنتجات
         Route::get('/products', function () {
             return view(view: 'products.index');
         })->middleware(['auth', 'verified'])->name(name: 'products.index');
 
-        // راوت لصفحة العملاء
         Route::get('/customers', function () {
             return view(view: 'customers.index');
         })->middleware(['auth', 'verified'])->name(name: 'customers.index');
 
-        // راوت لصفحة الاوردرات
         Route::get('/orders', function () {
             return view(view: 'orders.index');
         })->middleware(['auth', 'verified'])->name(name: 'orders.index');
 
 
-        // باقي الراوتات...
 
         Route::resource('categories', CategoryController::class);
         Route::resource('products', ProductController::class);
@@ -84,6 +79,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('activityLogs', action: [ActivityLogController::class, 'index'])->name('activityLogs.index');
 
+
+        // Live search products of order pos
+        Route::get('/orders/search-products', [OrderController::class, 'searchProducts'])->name('orders.searchProducts');
 
 
 

@@ -113,6 +113,25 @@ class OrderController extends Controller
 
     }
 
+    public function searchProducts(Request $request)
+    {
+        $q = trim($request->get('search', ''));
+
+        $products = Product::query()
+            ->when($q, function ($query) use ($q) {
+                $query->where(function ($qq) use ($q) {
+                    $qq->where('name', 'like', "%{$q}%")
+                    ->orWhere('barcode', 'like', "%{$q}%");
+                });
+            })
+            ->orderByDesc('id')
+            ->limit(40)
+            ->get();
+
+        return response()->json($products);
+    }
+
+
     /**
      * Display the specified resource.
      */
@@ -144,7 +163,6 @@ class OrderController extends Controller
         ]);
         $order->save();
 
-        // ناقص رسالة الايرور لو محترناش طريقة الدفع
 
         return back()->with('success', __('orders.order_completed'));
     }
@@ -155,12 +173,12 @@ class OrderController extends Controller
             return back()->with('error', __(key: 'orders.only_pending_cancelled'));
         }
 
-        // رجع الكمية لكل منتج
+        // refund quantity if cancel order
         foreach ($order->products as $product) {
             StockTransaction::create([
             'product_id' => $product->id,
-            'quantity'   => $product->pivot->quantity, // الكمية اللي كانت في الأوردر
-            'type'       => 'in', // دخول مخزون
+            'quantity'   => $product->pivot->quantity,
+            'type'       => 'in',
             'notes'       => __('orders.transaction_in_cancel') . $order->id,
             ]);
         }
@@ -179,12 +197,12 @@ class OrderController extends Controller
             return back()->with('error', __(key: 'orders.only_completed_refund'));
         }
 
-        // رجع الكمية لكل منتج
+        // refund quantity if refund order
         foreach ($order->products as $product) {
             StockTransaction::create([
             'product_id' => $product->id,
-            'quantity'   => $product->pivot->quantity, // الكمية اللي كانت في الأوردر
-            'type'       => 'in', // دخول مخزون
+            'quantity'   => $product->pivot->quantity,
+            'type'       => 'in',
             'notes'      => __('orders.transaction_in_refund') . $order->id,
             ]);
         }

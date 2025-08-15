@@ -20,10 +20,10 @@ return new class extends Migration
         $table->decimal('price', 10, 2);
         $table->decimal('discount', 10, 2)->default(0);
         $table->foreignId('category_id')->constrained()->onDelete('cascade');
-        $table->string('image')->nullable(); // اسم ملف الصورة
-        $table->string('barcode')->nullable(); // ممكن نستخدمه للباركود أو QR
-        $table->integer('stock')->default(0); // الكمية المتوفرة
-        $table->boolean('is_active')->default(true); // لو المنتج مفعل ولا لأ
+        $table->string('image')->nullable();
+        $table->string('barcode')->nullable()->unique();
+        $table->integer('stock')->default(0);
+        $table->boolean('is_active')->default(true);
         $table->timestamps();
 
         });

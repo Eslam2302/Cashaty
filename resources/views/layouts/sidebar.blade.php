@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <a href="#" class="brand-link">
+  <a href="#" class="text-center brand-link" style="font-weight:bold ; font-size:26px ; ">
     <i class="nav-icon fas fa-cash-register"></i>
-    <span class="brand brand-text font-weight-light">Cashaty</span>
+    <span class=" brand brand-text font-weight-light">Cashaty</span>
   </a>
   <div class="sidebar">
     <nav class="mt-2">
@@ -25,14 +25,14 @@
 
             @can('create order')
                 <a href="{{ route('orders.create') }}" class="nav-link {{ request()->routeIs('orders.create') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-box"></i>
+                    <i class="nav-icon fas fa-shopping-cart"></i>
                     <p>@lang('orders.open_pos')</p>
                 </a>
             @endcan
 
             @can('view orders')
                  <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-users"></i>
+                    <i class="nav-icon fas fa-file-invoice"></i>
                     <p>@lang('orders.orders')</p>
                 </a>
             @endcan
@@ -46,21 +46,21 @@
 
             @can('view stock')
                 <a href="{{ route('stockTransactions.index') }}" class="nav-link {{ request()->routeIs('stockTransactions.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-users"></i>
+                    <i class="nav-icon fas fa-boxes"></i>
                     <p>@lang('stockTransactions.stockTransactions')</p>
                 </a>
             @endcan
 
             @can('view users')
                 <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-users"></i>
+                    <i class="nav-icon fas fa-user"></i>
                     <p>@lang('users.users')</p>
                 </a>
             @endcan
 
             @can('view logs')
                 <a href="{{ route('activityLogs.index') }}" class="nav-link {{ request()->routeIs('activityLogs.index') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-users"></i>
+                    <i class="nav-icon fas fa-history"></i>
                     <p>@lang('activityLogs.activityLogs')</p>
                 </a>
             @endcan

@@ -34,24 +34,18 @@
         <div class="col-8">
 
             {{-- Searh Form of products --}}
-            <div class="search-products">
-
-                {{-- Search Form --}}
-                <form method="GET" action="{{ route('products.index') }}" class="mb-4 row g-2">
-                    <div class="col-md-9">
-                        <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="@lang('products.search_product')">
+            <div class="mb-4 search-products">
+                <div class="row g-2">
+                    <div class="col-md-12">
+                        <input type="text" id="search-products-input" value="{{ request('search') }}" class="form-control" placeholder="@lang('products.search_product')" autocomplete="off">
                     </div>
-
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">@lang('products.search')</button>
-                    </div>
-                </form>
+                </div>
             </div>
 
             {{-- END search --}}
 
             {{-- Products List --}}
-            <div class="products-list row">
+            <div class="products-list row" id="products-container">
 
                 {{-- Here you can loop through the products and display them --}}
                     @foreach($products as $product)

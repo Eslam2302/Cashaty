@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity')->default(1);
-            $table->decimal('price', 10, 2); // السعر وقت إنشاء الأوردر
+            $table->decimal('price', 10, 2); 
             $table->timestamps();
 
         });
