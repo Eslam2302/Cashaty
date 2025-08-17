@@ -1,0 +1,97 @@
+/* إلغاء أي هايلايت خفيف أو تأثير hover بيأثر على كل العناصر */
+.nav-sidebar .nav-item .nav-link {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* التأثير فقط عند hover على العنصر نفسه */
+.nav-sidebar .nav-item .nav-link:hover {
+    background-color: #1e282c !important;
+    color: #fff !important;
+}
+
+/* العنصر النشط (اللي انت واقف عليه) */
+.nav-sidebar .nav-item .nav-link.active {
+    background-color: #007bff !important;
+    color: #fff !important;
+}
+
+/* لو وقفت على active خليه ما يغيرش الشكل */
+.nav-sidebar .nav-item .nav-link.active:hover {
+    background-color: #007bff !important;
+    color: #fff !important;
+}
+
+.product-img {
+    height: 150px;
+    width: 100%;
+    object-fit: contain !important;
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.product-btns {
+    margin-top:20px
+}
+
+
+.product-item {
+    width: 150px;
+}
+
+.order-total table td,
+.order-total table th {
+    vertical-align: middle;
+    text-align: center;
+    border: 1px solid #dee2e6 !important;
+}
+
+.order-total table {
+    border-collapse: collapse;
+}
+
+.order-total table tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.order-total table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+
+// order receipt
+@media print {
+    body {
+        font-family: monospace;
+        font-size: 12px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+    }
+
+    #receipt {
+        width: 80mm; /* عرض الورقة الحرارية */
+        font-size: 12px; /* خط صغير ومناسب */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 4px;
+        text-align: left;
+        border-bottom: 1px dashed #000;
+    }
+
+    h2, h4 {
+        text-align: center;
+        margin: 5px 0;
+    }
+
+    button, .no-print {
+        display: none !important;
+    }
+}
